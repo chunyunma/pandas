@@ -1,6 +1,7 @@
 import pandas as pd
 from numpy import *
-
+import mypandasplot
+# import matplotlib.pyplot as plt
 
 def mypandas(data):
 	# Add a few more columns. Do not use data.Answer = ''. The dot operator is only available once the column has been created
@@ -50,10 +51,13 @@ def mypandas(data):
 			data.update(group)
 
 	# filter out duplicate rows		
-	dataS = data[data.index%2 == 0]
+	data = data[data.index%2 == 0]
 
 	#transform the two columns to float type, so that they can be compared with "=="
-	dataS[['Key', 'StrAnswer']] = dataS[['Key', 'StrAnswer']].convert_objects(convert_numeric = True)
-	dataS.TF = (dataS.Key == dataS.StrAnswer)
+	data[['Key', 'StrAnswer']] = data[['Key', 'StrAnswer']].convert_objects(convert_numeric = True)
+	data.TF = (data.Key == data.StrAnswer)
+	
+	# flag outliers
+	data = mypandasplot.mypandasbp(data)
 
-	return dataS
+	return data
