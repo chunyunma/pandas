@@ -1,12 +1,13 @@
 import os
 import pandas as pd
-from numpy import *
+import numpy as np
 import glob
 from mypandas import mypandas
 
 filenames = glob.glob('*.txt')
 # Initialize some variables
 skiprows = 6
+dfs = []
 
 for filename in filenames:
     # customize the header
@@ -14,4 +15,12 @@ for filename in filenames:
 	# read in data from files
 	data = pd.read_csv(filename, sep = '\t', skiprows = skiprows, names = names)
 	filename = open(os.path.join('playground/', filename), 'w+')
-	mypandas(data).to_csv(filename, sep = '\t', index = False)
+	dataS = mypandas(data)
+	grouped = dataS.groupby(['Operation', 'SOA'])
+	df = grouped.RT.aggregate(np.sum)
+	dfs.append(df)
+	dataS.to_csv(filename, sep = '\t', index = False)
+
+df = pd.concat(dfs, axis = 1)
+df.to_csv('total.csv', sep = '\t', index = False)
+	

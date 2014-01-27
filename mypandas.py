@@ -1,7 +1,6 @@
 import pandas as pd
 from numpy import *
 import mypandasplot
-# import matplotlib.pyplot as plt
 
 def mypandas(data):
 	# Add a few more columns. Do not use data.Answer = ''. The dot operator is only available once the column has been created
