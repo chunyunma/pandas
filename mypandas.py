@@ -1,6 +1,7 @@
 import pandas as pd
 from numpy import *
 import mypandasplot
+import pdb
 
 def mypandas(data):
 	# Add a few more columns. Do not use data.Answer = ''. The dot operator is only available once the column has been created
@@ -13,8 +14,8 @@ def mypandas(data):
 	data['StrAnswer'] = ''    # response from participants stripped of the trailing markers
 
 	# extract left and right operands from the last two digits of "Trial Name" and force type int8
-	data.Lvalue = data.Trial_Name.str.get(-1).astype('int8')
-	data.Rvalue = data.Trial_Name.str.get(-2).astype('int8')
+	data.Lvalue = data.Trial_Name.str.get(-2).astype('int8')
+	data.Rvalue = data.Trial_Name.str.get(-1).astype('int8')
 
 	# Calculate the answer key for each trial
 	for op, group in data.groupby('Operation'):
@@ -59,4 +60,6 @@ def mypandas(data):
 	# flag outliers
 	data = mypandasplot.mypandasbp(data)
 
-	return data
+# 	pdb.set_trace()
+	
+	return data[data.Outlier == False]
