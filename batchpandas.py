@@ -8,7 +8,7 @@ import pdb
 filenames = glob.glob('*.txt')
 # Initialize some variables
 skiprows = 6
-dfs = []
+dfs = []    # create an empty list
 
 for filename in filenames:
 	PptNo = filename.split('.')[0]
@@ -21,9 +21,13 @@ for filename in filenames:
 	grouped = dataS.groupby(['Operation', 'SOA'])
 	df = grouped.RT.aggregate(np.mean)
 # 	pdb.set_trace()
-	dfs.append(df)
+	df = df.reset_index()    # to enable concatenation later
+	df = df.drop(['Operation', 'SOA'], axis = 1)    # to enable concatenation later
+# 	df = df.set_index(['Operation', 'SOA'])
+	df = df.rename(columns = {'RT':PptNo})    # tag each column with participant Num.
+	dfs.append(df)    # append each dataframe into the list
 	dataS.to_csv(filename, sep = '\t', index = False)
 
-df = pd.concat(dfs, axis = 1)
+df = pd.concat(dfs, axis = 1)    # concatenate elements (dataframes) in dfs
 df.to_csv('total.csv', sep = '\t', index = False)
 	
