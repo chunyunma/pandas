@@ -25,12 +25,13 @@ def mypandasbp(data):
 			df.Outlier = 1<1    # if no outliers, fill with False
 			data.update(df)
 		elif len(top_points) > 0 and len(bottom_points) > 0:
-			bottom_points.sort(reverse=True)
+# 			pdb.set_trace()
+			bottom_points = sorted(bottom_points, reverse=True)    # use sorted() instead of sort to accommodate lists with only one element
 			top_points.sort()    # in-place sort
-			df.Outlier = (df.RT <= bottom_points[0]) or (df.RT >= top_points[0])
+			df.Outlier = (df.RT <= bottom_points[0]) | (df.RT >= top_points[0])    # boolean
 			data.update(df)
 		elif len(top_points) == 0 and len(bottom_points) > 0:
-			bottom_points.sort(reverse=True)
+			bottom_points = sorted(bottom_points, reverse=True)
 			df.Outlier = df.RT <= bottom_points[0]
 			data.update(df)
 		else:

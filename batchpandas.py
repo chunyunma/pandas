@@ -20,14 +20,12 @@ for filename in filenames:
 	dataS = mypandas(data)
 	grouped = dataS.groupby(['Operation', 'SOA'])
 	df = grouped.RT.aggregate(np.mean)
+	df = pd.DataFrame(df)    # convert a series-type of data to dataframe so I can tag the column using "rename()"
 # 	pdb.set_trace()
-	df = df.reset_index()    # to enable concatenation later
-	df = df.drop(['Operation', 'SOA'], axis = 1)    # to enable concatenation later
-# 	df = df.set_index(['Operation', 'SOA'])
-	df = df.rename(columns = {'RT':PptNo})    # tag each column with participant Num.
+	df = df.rename(columns = {'RT':PptNo})    # tag the column with participant Num.
 	dfs.append(df)    # append each dataframe into the list
 	dataS.to_csv(filename, sep = '\t', index = False)
 
 df = pd.concat(dfs, axis = 1)    # concatenate elements (dataframes) in dfs
-df.to_csv('total.csv', sep = '\t', index = False)
+df.to_csv('total.csv', sep = '\t')
 	
