@@ -18,7 +18,7 @@ for filename in filenames:
 	data = pd.read_csv(filename, sep = '\t', skiprows = skiprows, names = names)
 	filename = open(os.path.join('playground/', filename), 'w+')
 	dataS = mypandas(data)
-	grouped = dataS.groupby(['Operation', 'SOA'])
+	grouped = dataS[dataS.Outlier == False].groupby(['Operation', 'SOA'])
 	df = grouped.RT.aggregate(np.mean)
 	df = pd.DataFrame(df)    # convert a series-type of data to dataframe so I can tag the column using "rename()"
 # 	pdb.set_trace()
