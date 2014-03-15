@@ -52,10 +52,12 @@ def mypandas(data):
 
 	# filter out duplicate rows		
 	data = data[data.index%2 == 0]
+	data.reset_index(drop=True, inplace=True)
 
 	#transform the two columns to float type, so that they can be compared with "=="
 	data[['Key', 'StrAnswer']] = data[['Key', 'StrAnswer']].convert_objects(convert_numeric = True)
 	data.TF = (data.Key == data.StrAnswer)
+	
 	
 	# flag outliers
 	data = mypandasplot.mypandasbp(data)
@@ -63,4 +65,4 @@ def mypandas(data):
 # 	pdb.set_trace()
 	
 # 	return data[data.Outlier == False]
-	return data
+	return data, len(data[data.TF == True]), len(data[data.Outlier == False])
