@@ -65,4 +65,5 @@ def mypandas(data):
 # 	pdb.set_trace()
 	
 # 	return data[data.Outlier == False]
-	return data, len(data[data.TF == True]), len(data[data.Outlier == False])
+	return data, len(data[data.Block_Name.str.contains('block') & data.TF == True]), len(data[data.Outlier == False])
+	# return full data, number of accurate trials, number of non-outliers
